@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dmsdbj.team3.javaprojectbestpractices.mapper.UserMapper">
+    <!--resultMap 将Java的POJO对象和数据库字段映射，type:指定映射到哪个pojo  -->
+    <resultMap id="BaseResultMap" type="com.dmsdbj.team3.javaprojectbestpractices.entity.User">
+        <!--column是数据库中列名 ，property是pojo属性名-->
+        <result column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="age" property="age"/>
+        <result column="email" property="email"/>
+        <result column="phone" property="phone"/>
+        <result column="userEvaluation" property="userEvaluation"/>
+        <result column="deleted" property="deleted"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="other_info" jdbcType="VARCHAR" property="otherInfo" typeHandler="com.baomidou.mybatisplus.extension.handlers.JacksonTypeHandler"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+id, name,age,email,phone,userEvaluation,deleted,create_time,update_time,other_info
+    </sql>
+
+    <select id="getUserByPhone" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from user
+        where
+        phone=#{phone} and deleted=0
+
+    </select>
+</mapper>

@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<configuration scan="true" scanPeriod="60 seconds" debug="false">
+
+    <!--输出格式-->
+    <appender name="consoleLog" class="ch.qos.logback.core.ConsoleAppender">
+        <layout class="ch.qos.logback.classic.PatternLayout">
+            <pattern>
+                %d{yyyy/MM/dd-HH:mm:ss.SSS} %-5level [%X{TRACE_ID}] [%thread] %logger{50} - %msg%n
+            </pattern>
+        </layout>
+    </appender>
+    <appender name="p6spyConsoleAppender" class="ch.qos.logback.core.ConsoleAppender">
+        <layout class="ch.qos.logback.classic.PatternLayout">
+            <pattern>
+                 %msg%n
+            </pattern>
+        </layout>
+    </appender>
+    <appender name="p6spyFileAppender" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <encoder>
+            <pattern>
+                %msg%n
+            </pattern>
+        </encoder>
+        <!--滚动策略-->
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!--路径-->
+            <fileNamePattern>logs/springboot-demo-p6spy.%d.log</fileNamePattern>
+        </rollingPolicy>
+    </appender>
+
+    <!--输出error文件-->
+    <appender name="fileErrorLog" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>ERROR</level>
+        </filter>
+        <encoder>
+            <pattern>
+                %d{yyyy-MM-dd HH:mm:ss.SSS} %-5level [%X{TRACE_ID}] [%thread] %logger{50} - %msg%n
+            </pattern>
+        </encoder>
+        <!--滚动策略-->
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!--路径-->
+            <fileNamePattern>logs/springboot-demo-error.%d.log</fileNamePattern>
+        </rollingPolicy>
+    </appender>
+
+    <!--输出info文件-->
+    <appender name="fileInfoLog" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <!--过滤error日志-->
+            <level>ERROR</level>
+            <onMatch>DENY</onMatch>
+            <onMismatch>ACCEPT</onMismatch>
+        </filter>
+        <encoder>
+            <pattern>
+                %d{yyyy-MM-dd HH:mm:ss.SSS} %-5level [%X{TRACE_ID}] [%thread] %logger{50} - %msg%n
+            </pattern>
+        </encoder>
+        <!--滚动策略-->
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!--路径-->
+            <fileNamePattern>logs/springboot-demo-info.%d.log</fileNamePattern>
+        </rollingPolicy>
+    </appender>
+
+    <appender name="addIntegralLogAppender" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <encoder>
+            <pattern>
+                %d{yyyy-MM-dd HH:mm:ss.SSS} %-5level [%X{TRACE_ID}] [%thread] %logger{50} - %msg%n
+            </pattern>
+        </encoder>
+    </appender>
+
+
+    <!--全局应用该日志配置-->
+<!--    将root的打印级别设置为“INFO”-->
+    <root level="info">
+        <appender-ref ref="consoleLog"/>
+        <appender-ref ref="fileErrorLog"/>
+        <appender-ref ref="fileInfoLog"/>
+    </root>
+
+
+</configuration>
